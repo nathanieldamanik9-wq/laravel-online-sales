@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ShippingServiceController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductCatalogController;
 use Illuminate\Support\Facades\Route;
 
 // ---------- Autentikasi ----------
@@ -17,8 +18,9 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// ---------- Halaman SEMENTARA (diganti pada M4.2 dan M7.4) ----------
-Route::get('/', fn () => view('placeholder', ['title' => 'Katalog (sementara)']))->name('shop.index');
+// ---------- Katalog publik (M4.2) ----------
+Route::get('/', [ProductCatalogController::class, 'index'])->name('shop.index');
+Route::get('/produk/{product:slug}', [ProductCatalogController::class, 'show'])->name('shop.show');
 
 // ---------- Admin ----------
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
