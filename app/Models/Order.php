@@ -54,6 +54,11 @@ class Order extends Model
         return $this->belongsTo(ShippingService::class);
     }
 
+    public function validator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'validated_by');
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
